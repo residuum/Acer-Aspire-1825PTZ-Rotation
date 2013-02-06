@@ -1,0 +1,3 @@
+#!/bin/bash
+
+./i2c-rotation 0 | xargs -L1 ./autorotate

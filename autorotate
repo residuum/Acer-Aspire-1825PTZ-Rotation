@@ -1,0 +1,47 @@
+#!/bin/bash
+
+if [ $1 ]; then
+	OLD_ORIENTATION="$(xrandr --query --verbose | grep LVDS1 | awk '{print $5}')"
+	NEW_ORIENTATION=$1
+
+	if [ $NEW_ORIENTATION != $OLD_ORIENTATION ]; then
+
+		[ "$ID" ] || ID="`xinput list | grep 'Cando      11.6' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
+		[ "$ID" ] || ID="`xinput list | grep 'touchscreen' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
+		[ "$ID" ] || exit 0
+		
+		Y_CALIB="180 10772"
+		X_CALIB="65 18854"
+
+		case $NEW_ORIENTATION in
+			normal)
+    xinput set-prop "$ID" "Evdev Axis Inversion" 0, 0
+        xinput set-prop "$ID" "Evdev Axes Swap" 0
+        xinput set-prop "$ID" "Evdev Axis Calibration" $X_CALIB $Y_CALIB
+    ;;
+
+    left)
+    xinput set-prop "$ID" "Evdev Axis Inversion" 1, 0
+        xinput set-prop "$ID" "Evdev Axes Swap" 1
+        xinput set-prop "$ID" "Evdev Axis Calibration" $X_CALIB $Y_CALIB
+        #xinput set-prop "$ID" "Evdev Axis Calibration" $Y_CALIB $X_CALIB
+    ;;
+
+    right)
+    xinput set-prop "$ID" "Evdev Axis Inversion" 0, 1
+        xinput set-prop "$ID" "Evdev Axes Swap" 1
+        xinput set-prop "$ID" "Evdev Axis Calibration" $X_CALIB $Y_CALIB
+        #xinput set-prop "$ID" "Evdev Axis Calibration" $Y_CALIB $X_CALIB
+    ;;
+
+    inverted)
+    xinput set-prop "$ID" "Evdev Axis Inversion" 1, 1
+        xinput set-prop "$ID" "Evdev Axes Swap" 0
+        xinput set-prop "$ID" "Evdev Axis Calibration" $X_CALIB $Y_CALIB
+    ;;
+    esac
+
+		xrandr --orientation $NEW_ORIENTATION 
+
+	fi
+fi
