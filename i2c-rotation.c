@@ -32,7 +32,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
    MA 02110-1301 USA.
-   */
+ */
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -127,7 +127,6 @@ int main(int argc, char *argv[])
 	}
 	while (1)
 	{
-		sleep(2);
 		xh = i2c_smbus_read_byte_data(file, 0x28);
 		xl = i2c_smbus_read_byte_data(file, 0x29);
 		x = (xh<<8) | ( xl );
@@ -153,14 +152,16 @@ int main(int argc, char *argv[])
 		else if (x > 40 && y > 200 && z > 20) {
 			newdir=inverted;
 		}
-		if (newdir != undefined && newdir != dir) {
+		if (noloop) {
+			fprintf(stdout, "%s\n", rotation_names[newdir]);
+			fflush(stdout);
+			break;
+		} else if (newdir != undefined && newdir != dir) {
 			dir = newdir;
 			fprintf(stdout, "%s\n", rotation_names[dir]);
 			fflush(stdout);
 		}
-		if (noloop) {
-			break;
-		}
+		sleep(2);
 	}
 	close(file);
 	exit(0);
