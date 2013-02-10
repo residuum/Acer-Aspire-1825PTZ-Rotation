@@ -11,6 +11,9 @@ to your /etc/modules
 Usage (as root or with sudo): 
 autorotate {start|stop}
 
+Additionally, there is an XFCE theme, that is optimized for 
+touchscreens, i.e. more padding for buttons and larger scrollbars.
+
 NB: detected rotation will be correct, if the laptp is switched
 into a tablet, as the acceleration sensor is in the body, not the 
 screen.
