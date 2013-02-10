@@ -16,7 +16,7 @@
    Modified by Arobase Chac (arobase40) and Imarune for the Acer 1825PT(Z).
    May work with some Dell machine, Samsung NB30, Acer 1410, 1810TZ, 1810T and some Packard Bell clone of the Acer tablet pc laptops...
 
-   Modified by Thomas Mayer (Residuum) for Acer Aspire 1825PTZ and Debian.
+   Modified by Thomas Mayer (Residuum).
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

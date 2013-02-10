@@ -7,7 +7,9 @@ clean:
 install:
 	cp i2c-rotation /usr/local/bin/
 	cp watchrotation /usr/local/bin/
+	cp autorotate /usr/local/bin/
 
 uninstall:
 	rm -f /usr/local/bin/i2c-rotation
 	rm -f /usr/local/bin/watchrotation
+	rm -f /usr/local/bin/autorotate

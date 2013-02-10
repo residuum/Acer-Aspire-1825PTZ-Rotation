@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ "$UID" -ne 0 ];
+then
+	echo "You must be root to evaluate orientation."
+	exit 0
+fi
+
 OLD_ORIENTATION="$(xrandr --query --verbose | grep LVDS1 | awk '{print $5}')"
 
 [ "$ID" ] || ID="`xinput list | grep 'Cando      11.6' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
@@ -45,6 +51,8 @@ autorotate () {
 		fi
 	fi
 }
+
+echo $$ > /var/run/watchrotation.pid
 while [ 1 ]
 do
 	autorotate
