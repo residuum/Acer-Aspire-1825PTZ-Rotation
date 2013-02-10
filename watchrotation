@@ -16,7 +16,7 @@ Y_CALIB="180 10772"
 X_CALIB="65 18854"
 
 autorotate () {
-	NEW_ORIENTATION=`./i2c-rotation 0 noloop`
+	NEW_ORIENTATION=`i2c-rotation 0 noloop`
 	if [ $NEW_ORIENTATION ]; then
 		if [ $NEW_ORIENTATION != $OLD_ORIENTATION ]; then
 			case $NEW_ORIENTATION in

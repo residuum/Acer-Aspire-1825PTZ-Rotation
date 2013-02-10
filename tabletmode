@@ -2,7 +2,7 @@
 
 case "$1" in
 	start)
-		./watchrotation &
+		watchrotation &
 		;;
 	stop)
 		kill `cat /var/run/watchrotation.pid`
@@ -17,7 +17,7 @@ case "$1" in
 		xrandr --orientation normal 
 		;;
 	*)
-		echo "Usage: autorotate {start|stop}"
+		echo "Usage: tabletmode {start|stop}"
 		;;
 esac
 exit 0
