@@ -1,19 +1,13 @@
 #!/bin/bash
 
-if [ "$UID" -ne 0 ];
-then
-	echo "You must be root to evaluate orientation."
-	exit 0
-fi
-
 OLD_ORIENTATION="$(xrandr --query --verbose | grep LVDS1 | awk '{print $5}')"
 
 [ "$ID" ] || ID="`xinput list | grep 'Cando      11.6' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
 [ "$ID" ] || ID="`xinput list | grep 'touchscreen' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
 [ "$ID" ] || exit 0
 
-Y_CALIB="180 10772"
 X_CALIB="65 18854"
+Y_CALIB="180 10772"
 
 autorotate () {
 	NEW_ORIENTATION=`i2c-rotation 0 noloop`
@@ -52,7 +46,7 @@ autorotate () {
 	fi
 }
 
-echo $$ > /var/run/watchrotation.pid
+echo $$ > /tmp/watchrotation.pid
 while [ 1 ]
 do
 	autorotate

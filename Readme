@@ -4,16 +4,34 @@ Acer Aspire 1825PTZ Rotation
 Simple application to detect rotation on an Acer Aspire 1825PTZ
 and use that information to change screen layout.
 
-You will need kernel modules installed i2c-dev and i2c_i801, 
-either via modprobe or automatically on startup by adding them
-to your /etc/modules
-
-Usage (as root or with sudo): 
-tabletmode {start|stop}
-
 Additionally, there is an XFCE theme, that is optimized for 
 touchscreens, i.e. more padding for buttons and larger scrollbars.
 You will need gtk-theme-switch (http://www.muhri.net/nav.php3?node=gts).
+This script will switch to the theme and back to the same theme without
+touch optimized controls.
+
+Prequisites And Installation:
+-----------------------------
+You will need kernel modules installed i2c-dev and i2c_i801, 
+either via modprobe or automatically on startup by adding them
+to your /etc/modules.
+
+You will need access to the i2c devices as a user. To do so, you will
+need to run the following steps (as root or with sudo):
+- Create a group i2c: addgroup i2c
+- Add all users that can use tabletmode to this group:
+  addgroup <username> i2c
+
+To change the themes for XFCE, edit the theme lines in the file
+tabletmode.
+
+Build the i2c-rotation program: make
+Install the programs (as root or with sudo): make install
+Uninstall the programs (as root or with sudo): make uninstall
+
+Usage:
+------
+tabletmode {start|stop}
 
 NB: detected rotation will be correct, if the laptp is switched
 into a tablet, as the acceleration sensor is in the body, not the 
