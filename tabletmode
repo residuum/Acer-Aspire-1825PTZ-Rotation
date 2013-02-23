@@ -3,12 +3,12 @@
 TOUCH_THEME=Xfce-winter-touch-optimized
 NORMAL_THEME=Xfce-winter
 
-case "$1" in
-	start)
+start_watcher() {
 		xfconf-query -c xsettings -p /Net/ThemeName -s "$TOUCH_THEME"
 		watchrotation &
-		;;
-	stop)
+}
+
+stop_watcher() {
 		kill `cat /tmp/watchrotation.pid`
 		[ "$ID" ] || ID="`xinput list | grep 'Cando      11.6' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
 		[ "$ID" ] || ID="`xinput list | grep 'touchscreen' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
@@ -20,9 +20,26 @@ case "$1" in
 		xinput set-prop "$ID" "Evdev Axis Calibration" $X_CALIB $Y_CALIB
 		xrandr --orientation normal 
 		xfconf-query -c xsettings -p /Net/ThemeName -s "$NORMAL_THEME"
+		rm -f /tmp/watchrotation.pid
+}
+
+case "$1" in
+	auto)
+		if [ -f /tmp/watchrotation.pid ];
+		then
+			stop_watcher
+		else 
+			start_watcher
+		fi
+		;;
+	start)
+		start_watcher
+		;;
+	stop)
+		stop_watcher
 		;;
 	*)
-		echo "Usage: tabletmode {start|stop}"
+		echo "Usage: tabletmode {start|stop|auto}"
 		;;
 esac
 exit 0
