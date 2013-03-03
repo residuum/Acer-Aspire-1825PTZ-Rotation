@@ -136,20 +136,32 @@ int main(int argc, char *argv[])
 		zh = i2c_smbus_read_byte_data(file, 0x2c);
 		zl = i2c_smbus_read_byte_data(file, 0x2d);
 		z = (zh<<8) | ( zl );
-		/* printf("x = %d y = %d z = %d", x, y, z); */
-		if (x < 20 && y > 200 && z > 40) {
+		/*fprintf(stdout, "x = %d y = %d z = %d\n", x, y, z);
+		fflush(stdout);*/
+		if ((x < 20 || x > 240) 
+				&& (y < 20 ||y > 240) 
+				&& z > 40) {
 			newdir = undefined; /* flat */
+			/*fprintf(stdout, "flat\n");
+			fflush(stdout);*/
 		}
-		else if (x > 128 && y > 128) {
+		else if (x > 128 
+				&& y > 128) {
 			newdir=normal;
 		}
-		else if (x < 20 && y < 128 && z < 40) {
+		else if (x < 20 
+				&& y < 128 
+				&& z < 40) {
 			newdir=right;
 		}
-		else if (x < 20 && y > 128 && z < 40) {
+		else if (x < 20 
+				&& y > 128 
+				&& z < 40) {
 			newdir=left;
 		}
-		else if (x > 40 && y > 200 && z > 20) {
+		else if (x > 40 
+				&& y > 200 
+				&& z > 20) {
 			newdir=inverted;
 		}
 		if (noloop) {
