@@ -46,7 +46,7 @@ autorotate () {
 	fi
 }
 
-echo $$ > /tmp/watchrotation.pid
+echo $$ >> /tmp/watchrotation.pid
 while [ 1 ]
 do
 	autorotate

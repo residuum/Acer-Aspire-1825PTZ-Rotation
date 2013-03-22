@@ -4,23 +4,27 @@ TOUCH_THEME=Xfce-winter-touch-optimized
 NORMAL_THEME=Xfce-winter
 
 start_watcher() {
-		xfconf-query -c xsettings -p /Net/ThemeName -s "$TOUCH_THEME"
-		watchrotation &
+	/usr/lib/at-spi/at-spi-registryd &
+	echo $! >> /tmp/watchrotation.pid
+	florence &
+	echo $! >> /tmp/watchrotation.pid
+	xfconf-query -c xsettings -p /Net/ThemeName -s "$TOUCH_THEME"
+	watchrotation &
 }
 
 stop_watcher() {
-		kill `cat /tmp/watchrotation.pid`
-		[ "$ID" ] || ID="`xinput list | grep 'Cando      11.6' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
-		[ "$ID" ] || ID="`xinput list | grep 'touchscreen' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
-		[ "$ID" ] || exit 0
-		Y_CALIB="180 10772"
-		X_CALIB="65 18854"
-		xinput set-prop "$ID" "Evdev Axis Inversion" 0, 0
-		xinput set-prop "$ID" "Evdev Axes Swap" 0
-		xinput set-prop "$ID" "Evdev Axis Calibration" $X_CALIB $Y_CALIB
-		xrandr --orientation normal 
-		xfconf-query -c xsettings -p /Net/ThemeName -s "$NORMAL_THEME"
-		rm -f /tmp/watchrotation.pid
+	kill `cat /tmp/watchrotation.pid`
+	[ "$ID" ] || ID="`xinput list | grep 'Cando      11.6' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
+	[ "$ID" ] || ID="`xinput list | grep 'touchscreen' | sed -n -e's/.*id=\([0-9]\+\).*/\1/p'`"
+	[ "$ID" ] || exit 0
+	Y_CALIB="180 10772"
+	X_CALIB="65 18854"
+	xinput set-prop "$ID" "Evdev Axis Inversion" 0, 0
+	xinput set-prop "$ID" "Evdev Axes Swap" 0
+	xinput set-prop "$ID" "Evdev Axis Calibration" $X_CALIB $Y_CALIB
+	xrandr --orientation normal 
+	xfconf-query -c xsettings -p /Net/ThemeName -s "$NORMAL_THEME"
+	rm -f /tmp/watchrotation.pid
 }
 
 case "$1" in
